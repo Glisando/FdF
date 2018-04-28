@@ -1,0 +1,4 @@
+/private/var/folders/zz/zyxvpxvq6csfxvn_n0000p3c0005hv/T/AppTranslocation/4CBA4406-F2C3-470B-B13E-7E1B61B3901D/d/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/hdanylev/Documents/lem-in/libftprintf
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/hdanylev/Documents/lem-in/libftprintf/cmake-build-debug
