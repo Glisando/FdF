@@ -17,6 +17,7 @@
 
 typedef struct		s_link
 {
+	int 			index;
 	char 			*name;
 	struct s_rooms	*link_room;
 	struct s_link	*next;
@@ -24,11 +25,12 @@ typedef struct		s_link
 
 typedef struct		s_rooms
 {
-	int 			ant_sum;
-	int 			x;
-	int 			y;
-	int 			que;
-	char 			*name;
+	int				ant_sum;
+	int				x;
+	int				y;
+	int				lvl;
+	int 			index;
+	char			*name;
 	struct s_rooms	*next;
 	struct s_rooms	*prev;
 	struct s_link	*links;
@@ -36,19 +38,23 @@ typedef struct		s_rooms
 
 typedef struct		s_val
 {
+	int 			index;
 	int				ant_sum;
 	int				start;
-	int 			end;
-	int 			end_room;
-	int 			start_room;
-	int 			rooms_beg;
-	int 			links_beg;
+	int				end;
+	int				end_room;
+	int				comment;
+	int				finish_room;
+	int				start_room;
+	int				rooms_beg;
+	int				links_beg;
 }					t_val;
 
 int					validation(t_val **ant, char *line, t_rooms **rooms);
-int 				ant_sum(t_val **ant, char *line);
-void				put_room(t_rooms **rooms, char **mass, int x, int y);
+int					ant_sum(t_val **ant, char *line);
+void				put_room(t_rooms **rooms, char **mass, t_val **ant);
 void				put_links(t_rooms **rooms, char **mass);
+void				bfs_algo(t_rooms *rooms);
 t_rooms				*create_room();
 int					check_links(t_val **ant, t_rooms **rooms, char *line);
 t_rooms				*find_name(t_rooms **rooms, char *name);

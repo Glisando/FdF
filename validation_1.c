@@ -19,7 +19,7 @@ int		check_coord(t_rooms **rooms, char **mass, int x, int y)
 	tmp = (*rooms);
 	while (tmp)
 	{
-		if (ft_strequ(tmp->name, mass[0]) || (tmp->x == x && tmp->y == y))
+		if (ft_strequ(tmp->name, mass[0]) || (tmp->x == x && tmp->y == y) || (x < 0 && y < 0))
 			break ;
 		tmp = tmp->next;
 	}
@@ -44,14 +44,15 @@ int		room(t_val **ant, char *line, t_rooms **rooms)
 	i = 0;
 	while (mass[++i])
 		if ((ft_strdigit(mass[i])))
-			return (0);
+			break ;
 	if (i != 3)
 		return (0);
 	x = ft_atoi(mass[1]);
 	y = ft_atoi(mass[2]);
 	if ((check_coord(rooms, mass, x, y)) == 0)
 		return (0);
-	put_room(rooms, mass, x, y);
+	put_room(rooms, mass, ant);
+	free_mass(mass);
 	return (1);
 }
 
@@ -67,13 +68,14 @@ int		comments(t_val **ant, char *line)
 	if ((ft_strequ(&line[i], "start") && i == 2))
 	{
 		(*ant)->start++;
-		(*ant)->start_room = 1;
+		(*ant)->start_room++;
 	}
 	else if ((ft_strequ(&line[i], "end") && i == 2))
 	{
 		(*ant)->end++;
-		(*ant)->end_room = 1;
+		(*ant)->finish_room++;
 	}
+	(*ant)->comment++;
 	return (1);
 }
 

@@ -28,34 +28,51 @@ t_rooms	*find_name(t_rooms **rooms, char *name)
 
 void	put_links(t_rooms **rooms, char **mass)
 {
-	t_rooms	*tmp;
+	t_rooms	*tmp0;
+	t_rooms	*tmp1;
 	t_link	*lin;
 
-	if (mass[0][0] != '0' && mass[1][0] != '1')
+	tmp0 = find_name(rooms, mass[0]);
+	tmp1 = find_name(rooms, mass[1]);
+	if (tmp0->index != 0 && tmp1->index != 1)
 	{
-		tmp = find_name(rooms, mass[0]);
-		lin = (t_link *) malloc(sizeof(t_link));
-		lin->next = tmp->links;
-		tmp->links = lin;
+		lin = (t_link*)malloc(sizeof(t_link));
+		lin->next = tmp0->links;
+		tmp0->links = lin;
 		lin->link_room = find_name(rooms, mass[1]);
 		lin->name = ft_strsub(mass[1], 0, ft_strlen(mass[1]));
+		lin->index = tmp1->index;
 	}
-	if (mass[0][0] != '1')
+	if (tmp0->index != 1)
 	{
-		tmp = find_name(rooms, mass[1]);
-		lin = (t_link *) malloc(sizeof(t_link));
-		lin->next = tmp->links;
-		tmp->links = lin;
+		lin = (t_link*)malloc(sizeof(t_link));
+		lin->next = tmp1->links;
+		tmp1->links = lin;
 		lin->link_room = find_name(rooms, mass[0]);
 		lin->name = ft_strsub(mass[0], 0, ft_strlen(mass[0]));
+		lin->index = tmp0->index;
 	}
 }
 
-void	put_room(t_rooms **rooms, char **mass, int x, int y)
+int		set_lvl_start(t_val **ant)
+{
+	if ((*ant)->start_room && (*ant)->start_room--)
+		return (1);
+	else if ((*ant)->finish_room && (*ant)->finish_room--)
+		return (0);
+	else
+		return ((*ant)->index++);
+}
+
+void	put_room(t_rooms **rooms, char **mass, t_val **ant)
 {
 	t_rooms	*prev;
 	t_rooms *tmp;
+	int		x;
+	int		y;
 
+	x = ft_atoi(mass[1]);
+	y = ft_atoi(mass[2]);
 	tmp = (*rooms);
 	prev = NULL;
 	if (tmp->name != NULL)
@@ -69,7 +86,7 @@ void	put_room(t_rooms **rooms, char **mass, int x, int y)
 		tmp->next = NULL;
 	}
 	tmp->name = ft_strsub(mass[0], 0, ft_strlen(mass[0]));
+	tmp->index = set_lvl_start(ant);
 	tmp->x = x;
 	tmp->y = y;
-	free_mass(mass);
 }

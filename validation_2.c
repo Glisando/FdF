@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   validation_2.c                                     :+:      :+:    :+:   */
-/*                +:+ +:+         +:+     */
+/*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/26 18:16:30 by hdanylev          #+#    #+#             */
-/*   Updated: 2018/04/26 18:16:31 by hdanylev         ###   ########.fr       */
+/*   Created: 2018/05/01 18:56:51 by hdanylev          #+#    #+#             */
+/*   Updated: 2018/05/01 18:56:57 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int		check_old_link(t_rooms **rooms, char **mass, int thesame)
 {
-	t_link *ptr1;
-	t_link *ptr2;
-	t_rooms *tmp1;
-	t_rooms *tmp2;
+	t_link	*ptr1;
+	t_link	*ptr2;
+	t_rooms	*tmp1;
+	t_rooms	*tmp2;
 
 	tmp1 = find_name(rooms, mass[0]);
 	tmp2 = find_name(rooms, mass[1]);
@@ -35,7 +35,7 @@ int		check_old_link(t_rooms **rooms, char **mass, int thesame)
 			thesame++;
 		ptr2 = ptr2->next;
 	}
-	if (thesame > 0 && free_mass(mass))
+	if (thesame > 0)
 		return (0);
 	return (1);
 }
@@ -44,9 +44,9 @@ int		check_links(t_val **ant, t_rooms **rooms, char *line)
 {
 	t_rooms	*tmp;
 	char	**mass;
-	int 	count;
+	int		count;
 
-//	printf("%d %d %d\n", (*ant)->rooms_beg, (*ant)->end, (*ant)->start);
+	(*ant)->comment = 0;
 	if ((*ant)->rooms_beg == 0 || (*ant)->end != 1 || (*ant)->start != 1)
 		return (0);
 	if ((*ant)->links_beg == 0)
