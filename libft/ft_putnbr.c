@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/09/25 09:46:44 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/04 18:39:41 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+void	ft_putnbr(int nb)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	unsigned int nb_long;
 
-#endif
+	nb_long = nb;
+	if (nb < 0)
+	{
+		ft_putchar('-');
+		nb_long *= (-1);
+	}
+	if (nb_long > 9)
+	{
+		ft_putnbr(nb_long / 10);
+	}
+	ft_putchar(48 + nb_long % 10);
+}

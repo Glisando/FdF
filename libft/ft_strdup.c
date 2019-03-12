@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/10/26 22:07:01 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/04 12:53:31 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+char	*ft_strdup(const char *str)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	int		i;
+	char	*tmp;
 
-#endif
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i])
+		i++;
+	tmp = (char*)malloc((i + 1) * sizeof(*str));
+	i = 0;
+	if (tmp)
+	{
+		while (str[i])
+		{
+			tmp[i] = str[i];
+			i++;
+		}
+		tmp[i] = '\0';
+		return (tmp);
+	}
+	return (0);
+}

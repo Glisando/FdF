@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   bzero.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/10/26 13:29:57 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/06 12:28:42 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+void	ft_bzero(void *b, size_t len)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	size_t	i;
+	char	*arr;
 
-#endif
+	if (len == 0)
+		return ;
+	i = 0;
+	arr = b;
+	while (i < len)
+	{
+		arr[i] = '\0';
+		i++;
+	}
+}

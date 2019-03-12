@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/11/01 12:48:12 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/07 16:02:32 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	char	*substr;
+	size_t	col;
 
-#endif
+	if (s == NULL)
+		return (0);
+	col = (size_t)start;
+	col = 0;
+	substr = (char*)malloc(len + 1);
+	if (substr == NULL)
+		return (0);
+	while (s[start] != '\0' && col < len)
+	{
+		substr[col] = s[start];
+		start++;
+		col++;
+	}
+	substr[col] = '\0';
+	return (substr);
+}

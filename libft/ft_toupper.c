@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/10/28 18:00:04 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/03 13:39:47 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+char	*ft_toupper(char *str)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	int i;
 
-#endif
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 'a' && str[i] <= 'z')
+			str[i] -= 32;
+		i++;
+	}
+	return (str);
+}

@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdanylev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 16:41:03 by hdanylev          #+#    #+#             */
-/*   Updated: 2019/03/12 16:41:04 by hdanylev         ###   ########.fr       */
+/*   Created: 2017/10/26 19:26:29 by hdanylev          #+#    #+#             */
+/*   Updated: 2017/11/06 14:45:39 by hdanylev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "printf.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "../libft/printf.h"
-
-typedef struct  s_coords
+void	*ft_memmove(void *dst, const void *src, size_t n)
 {
-    int             x;
-    int             y;
-    int             z;
-    unsigned int    color;
-    struct s_coords *next;
-}               t_coords;
+	int			zero;
+	size_t		t;
+	char		*arr;
+	const char	*data;
 
-#endif
+	zero = n - 1;
+	t = 0;
+	arr = (char*)dst;
+	data = (const char*)src;
+	if (dst > src)
+	{
+		while (zero >= 0)
+		{
+			arr[zero] = data[zero];
+			zero--;
+		}
+		return (arr);
+	}
+	while (t < n)
+	{
+		arr[t] = data[t];
+		t++;
+	}
+	return (arr);
+}
