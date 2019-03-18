@@ -52,9 +52,9 @@ void	ft_rotate_matrix(t_global *global)
 	global->t[1][1] = 0.25 * (2 * cos(a + c) + 2 * cos(a - c) + sin(a + b + c)
 		- sin(-a + b + c) - sin(a - b + c) - sin(a + b - c));
 	global->t[1][2] = 0.5 * (-sin(a + b) - sin(a - b));
-	global->t[2][0] = 0.25 * (-2 * cos(a + c) + 2 * cos(a - c)
-		- sin(a + b + c) - sin(-a + b + c) - sin(a + b - c) - sin(-a + b - c));
-	global->t[2][1] = 0.25 * (-cos(a + b + c) - cos(-a + b + c)
-		+ cos(a - b + c) + cos(a + b - c) + 2 * sin(a + c) + 2 * sin(a - c));
+	global->t[2][0] = 0.25 * (-2 * cos(a + c) + 2 * cos(a - c) - sin(a + b + c)
+		- sin(-a + b + c) - sin(a + b - c) - sin(-a + b - c));
+	global->t[2][1] = 0.25 * (-cos(a + b + c) - cos(-a + b + c) + cos(a - b + c)
+		+ cos(a + b - c) + 2 * sin(a + c) + 2 * sin(a - c));
 	global->t[2][2] = 0.5 * (cos(a + b) + cos(a - b));
 }
