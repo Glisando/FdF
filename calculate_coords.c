@@ -12,7 +12,37 @@
 
 #include "inc/fdf.h"
 
-int			calculate_coords(t_global *global)
+void	math_for_translating(t_global *global, t_coords *lst, int i, int j)
+{
+	int x;
+	int y;
+
+	x = lst->x - (global->cols / 2);
+	y = lst->y - (global->rows / 2);
+	global->dot[j][i].x = (global->t[0][0] * x + global->t[1][0] * y - global->t[2][0] * lst->z) * global->scale;
+	global->dot[j][i].y = (global->t[0][1] * x + global->t[1][1] * y - global->t[2][1] * lst->z) * global->scale;
+	global->dot[j][i].z = (global->t[0][2] * x + global->t[1][2] * y + global->t[2][2] * lst->z) * global->scale;
+	global->dot[j][i].color = lst->color;
+	global->dot[j][i].x += global->width / 2;
+	global->dot[j][i].y += global->height / 2;
+}
+
+void	check_params(t_global *global)
+{
+	int w;
+	int h;
+
+	w = global->width;
+	h = global->height;
+	global->a = fabs(global->a * 57.2958) > 360 ? 0 : global->a;
+	global->b = fabs(global->b * 57.2958) > 360 ? 0 : global->b;
+	global->c = fabs(global->c * 57.2958) > 360 ? 0 : global->c;
+	global->scale -= global->scale > w / global->cols * 50 ? 0.3 : 0;
+	global->scale -= global->scale > w / global->rows * 50 ? 0.3 : 0;
+	global->scale += global->scale < 1 ? 0.3 : 0;
+}
+
+int		calculate_coords(t_global *global)
 {
 	int			i;
 	int			j;
@@ -20,16 +50,15 @@ int			calculate_coords(t_global *global)
 
 	j = -1;
 	lst = global->coord;
+	check_params(global);
 	ft_rotate_matrix(global);
+
 	while (++j < global->rows)
 	{
 		i = -1;
 		while (++i < global->cols)
 		{
-			global->dot[j][i].x = (global->t[0][0] * lst->x + global->t[1][0] * lst->y - global->t[2][0] * lst->z) * global->scale;
-			global->dot[j][i].y = (global->t[0][1] * lst->x + global->t[1][1] * lst->y - global->t[2][1] * lst->z) * global->scale;
-			global->dot[j][i].z = (global->t[0][2] * lst->x + global->t[1][2] * lst->y + global->t[2][2] * lst->z) * global->scale;
-			global->dot[j][i].color = lst->color;
+			math_for_translating(global, lst, i, j);
 			lst = lst->next;
 		}
 	}

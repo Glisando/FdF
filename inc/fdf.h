@@ -30,9 +30,9 @@ typedef struct	s_win
 
 typedef struct	s_coords
 {
-    int				x;
-    int				y;
-    int				z;
+    double			x;
+    double			y;
+    double			z;
     unsigned int	color;
     struct s_coords	*next;
 }               	t_coords;
@@ -47,6 +47,8 @@ typedef struct  	s_dot
 
 typedef struct		s_global
 {
+	int				width;
+	int				height;
 	char			*img_data;
 	int				rows;
 	int				cols;
@@ -82,7 +84,7 @@ int			ft_arraylen(char **mass);
 
 void		ft_new_dot(t_global *global, t_coords *lst, t_dot *dot);
 t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i);
-t_win		*init_win();
+t_win		*init_win(t_global *global);
 
 int			draw(t_global *global);
 int			calculate_coords(t_global *global);

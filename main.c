@@ -12,16 +12,15 @@
 
 #include "inc/fdf.h"
 
-t_win		*init_win()
+t_win		*init_win(t_global *global)
 {
 	t_win	*win;
 
-
 	win = (t_win*)malloc(sizeof(t_win));
 	win->mlx = mlx_init();
-	win->win = mlx_new_window(win->mlx, 2000,
-		2000, "---- HOT FDF ----");
-	win->img = mlx_new_image(win->mlx, 2000, 2000);
+	win->win = mlx_new_window(win->mlx, global->width,
+		global->height, "---- HOT FDF ----");
+	win->img = mlx_new_image(win->mlx, global->width, global->height);
 	return (win);
 }
 
@@ -30,10 +29,12 @@ t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 	t_global	*global;
 
 	global = (t_global*)malloc(sizeof(t_global));
+	global->width = (cols * 5 + 800) > 2500 ? 2500 : (cols * 5 + 800);
+	global->height = (rows * 5 + 800) > 1500 ? 1500 : (rows * 5 + 800);
+	global->scale = global->width / cols * 0.5;
 	global->a = 0 * 0.0174533;
 	global->b = 0 * 0.0174533;
 	global->c = 0 * 0.0174533;
-	global->scale = 30;
 	global->rows = rows;
 	global->cols = cols;
 	global->size = rows * cols;
@@ -41,7 +42,7 @@ t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 	global->dot = (t_dot**)malloc(sizeof(t_dot*) * rows);
 	while (++i < rows)
 		global->dot[i] = (t_dot*)malloc(sizeof(t_dot) * cols);
-	global->win = init_win();
+	global->win = init_win(global);
 	global->img_data = mlx_get_data_addr(global->win->img, &global->bpp,
 										&global->size_line, &global->endian);
 
@@ -54,7 +55,6 @@ t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 	// 	p[i] = 0xFFFFFF;
 	// 	i++;
 	// }
-
 	return (global);
 }
 
@@ -72,11 +72,11 @@ t_coords	*ft_new_list(t_coords *tmp, int x, int y, char **mass)
 int			ft_read_file(int fd, int x,
 				int y, t_coords *coord)
 {
-	char			*line;
-	char			**mass;
-	int	cols;
-	int	prev_cols;
-	t_coords		*tmp;
+	char		*line;
+	char		**mass;
+	int			cols;
+	int			prev_cols;
+	t_coords	*tmp;
 
 	tmp = coord;
 	prev_cols = 0;
