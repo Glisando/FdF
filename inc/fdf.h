@@ -20,18 +20,18 @@
 # include <math.h>
 # include "mlx.h"
 # include "../libft/printf.h"
-
+#include <stdbool.h>
 typedef struct	s_win
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
+	void		*mlx;
+	void		*win;
+	unsigned int		*img;
 }				t_win;
 
-typedef struct  	s_coords
+typedef struct	s_coords
 {
-    unsigned int	x;
-    unsigned int	y;
+    int				x;
+    int				y;
     int				z;
     unsigned int	color;
     struct s_coords	*next;
@@ -39,17 +39,23 @@ typedef struct  	s_coords
 
 typedef struct  	s_dot
 {
-    double	x;
-    double	y;
-	double	z;
+    double			x;
+    double			y;
+	double			z;
     unsigned int	color;
 }               	t_dot;
 
 typedef struct		s_global
 {
+	char			*img_data;
 	int				rows;
 	int				cols;
+	int				bpp;
 	int				size;
+	int				endian;
+	int				size_line;
+	int				xcur;
+	int				ycur;
 	double			a;
 	double			b;
 	double			c;
@@ -60,15 +66,26 @@ typedef struct		s_global
 	t_win			*win;
 }					t_global;
 
+/* ------- Draw's utils ------- */
+
+double		rfpart(double x);
+double		fpart(double x);
+double		round(double x);
+int			ipart(double x);
+void    	plot(double x, double y, double c, t_global * global);
 
 /* ------- Utils ------- */
-
+int			hook(int key, t_global *params);
 void		ft_free_2array(char **mass);
 void		ft_rotate_matrix(t_global *global);
 int			ft_arraylen(char **mass);
 
-t_global	*init_global_struct(t_coords *coord, int rows, int cols);
-t_win		*init_win(int rows, int cols, int size, double scale);
+void		ft_new_dot(t_global *global, t_coords *lst, t_dot *dot);
+t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i);
+t_win		*init_win();
+
+int			draw(t_global *global);
 int			calculate_coords(t_global *global);
+void    	ft_swap(double *a, double *b);
 
 #endif

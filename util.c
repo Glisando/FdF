@@ -58,3 +58,31 @@ void	ft_rotate_matrix(t_global *global)
 		+ cos(a + b - c) + 2 * sin(a + c) + 2 * sin(a - c));
 	global->t[2][2] = 0.5 * (cos(a + b) + cos(a - b));
 }
+void	new_image(t_global *glonal)
+{
+	mlx_destroy_image(glonal->win->mlx, glonal->win->img);
+	glonal->win->img = mlx_new_image(glonal->win->mlx, 2000, 2000);
+	calculate_coords(glonal);
+}
+
+int     hook(int key, t_global *params)
+{
+	bool	changed;
+
+	changed = false;
+    (key == 53) ? exit(1) : NULL;
+	if (key == 124 && (changed = true))
+		params->b += 1 * 0.0174533;
+	else if (key == 123 && (changed = true))
+		params->b -= 1 * 0.0174533;
+	else if (key == 126 && (changed = true))
+		params->a += 1 * 0.0174533;
+	else if (key == 125 && (changed = true))
+		params->a -= 1 * 0.0174533;
+	else if (key == 115 && (changed = true))
+		params->c -= 1 * 0.0174533;
+	else if (key == 119 && (changed = true))
+		params->c += 1 * 0.0174533;
+	(changed == true) ? new_image(params) : NULL;
+    return (0);
+}

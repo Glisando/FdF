@@ -12,56 +12,70 @@
 
 #include "inc/fdf.h"
 
-t_coords	*ft_new_list(t_coords *tmp, int x, int y, char **mass)
-{
-	tmp->next = (t_coords*)malloc(sizeof(t_coords));
-	tmp = tmp->next;
-	tmp->x = x;
-	tmp->y = y;
-	tmp->z = ft_atoi(mass[x]);
-	tmp->color = ft_strchr(mass[x], 'x') == 0 ?
-		0xfffff2 : ft_atoi_base(ft_strchr(mass[x], 'x'), 16);
-	return (tmp);
-}
-
-t_win		*init_win(int rows, int cols, int size, double scale)
+t_win		*init_win()
 {
 	t_win	*win;
 
+
 	win = (t_win*)malloc(sizeof(t_win));
 	win->mlx = mlx_init();
-	win->win = mlx_new_window(win->mlx, size * scale,
-		size * scale, "---- HOT FDF ----");
-	win->img = mlx_new_image(win->mlx, rows, cols);
+	win->win = mlx_new_window(win->mlx, 2000,
+		2000, "---- HOT FDF ----");
+	win->img = mlx_new_image(win->mlx, 2000, 2000);
 	return (win);
 }
 
-t_global	*init_global_struct(t_coords *coord, int rows, int cols)
+t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 {
-	t_global *global;
+	t_global	*global;
 
 	global = (t_global*)malloc(sizeof(t_global));
-	global->a = 20;
-	global->b = 20;
-	global->c = 20;
-	global->scale = 15;
+	global->a = 0 * 0.0174533;
+	global->b = 0 * 0.0174533;
+	global->c = 0 * 0.0174533;
+	global->scale = 30;
 	global->rows = rows;
 	global->cols = cols;
 	global->size = rows * cols;
 	global->coord = coord;
 	global->dot = (t_dot**)malloc(sizeof(t_dot*) * rows);
-	global->win = init_win(rows, cols, global->size, global->scale);
-	printf("rows: %u\n", rows);
+	while (++i < rows)
+		global->dot[i] = (t_dot*)malloc(sizeof(t_dot) * cols);
+	global->win = init_win();
+	global->img_data = mlx_get_data_addr(global->win->img, &global->bpp,
+										&global->size_line, &global->endian);
+
+	// i = 0;
+	// int *p;
+	// p = (int*)(global->img_data);
+	// printf("%i\n", global->size_line);
+	// while (i <  global->size_line * 1000 / 4)
+	// {
+	// 	p[i] = 0xFFFFFF;
+	// 	i++;
+	// }
+
 	return (global);
 }
 
-int			ft_read_file(int fd, unsigned int x,
-				unsigned int y, t_coords *coord)
+t_coords	*ft_new_list(t_coords *tmp, int x, int y, char **mass)
+{
+	tmp->next = (t_coords*)malloc(sizeof(t_coords));
+	tmp->x = x;
+	tmp->y = y;
+	tmp->z = ft_atoi(mass[x]);
+	tmp->color = ft_strchr(mass[x], 'x') == 0 ?
+		0x9f5ad1 : ft_atoi_base(ft_strchr(mass[x], 'x'), 16);
+	return (tmp);
+}
+
+int			ft_read_file(int fd, int x,
+				int y, t_coords *coord)
 {
 	char			*line;
 	char			**mass;
-	unsigned int	cols;
-	unsigned int	prev_cols;
+	int	cols;
+	int	prev_cols;
 	t_coords		*tmp;
 
 	tmp = coord;
@@ -74,13 +88,17 @@ int			ft_read_file(int fd, unsigned int x,
 			return (write(1, "Error: Invalid string :(\n", 25));
 		x = -1;
 		while (++x < cols)
+		{
 			tmp = ft_new_list(tmp, x, y, mass);
+			tmp = tmp->next;
+		}
 		ft_free_2array(mass);
 		ft_strdel(&line);
 		prev_cols = cols;
 		y++;
 	}
-	return (calculate_coords(init_global_struct(coord, y, cols)));
+	tmp->next = NULL;
+	return (calculate_coords(init_global_struct(coord, y, cols, -1)));
 }
 
 int			main(int argc, char **argv)

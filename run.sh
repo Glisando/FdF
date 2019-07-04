@@ -1,1 +1,1 @@
-gcc -Wall -Wextra -Werror main.c util.c calculate_coords.c libft/libft.a -lmlx -framework OpenGL -framework AppKit && ./a.out "$1"
+gcc -Wall -Wextra -Werror main.c draw\'s_util.c util.c draw.c calculate_coords.c libft/libft.a -lmlx -framework OpenGL -framework AppKit && ./a.out "$1"
