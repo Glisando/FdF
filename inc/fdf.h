@@ -20,7 +20,8 @@
 # include <math.h>
 # include "mlx.h"
 # include "../libft/printf.h"
-#include <stdbool.h>
+# include <stdbool.h>
+
 typedef struct	s_win
 {
 	void		*mlx;
@@ -69,7 +70,6 @@ typedef struct		s_global
 }					t_global;
 
 /* ------- Draw's utils ------- */
-
 double		rfpart(double x);
 double		fpart(double x);
 double		round(double x);
@@ -77,11 +77,19 @@ int			ipart(double x);
 void    	plot(double x, double y, double c, t_global * global);
 
 /* ------- Utils ------- */
-int			hook(int key, t_global *params);
 void		ft_free_2array(char **mass);
+void		altitude_changing(t_coords *coord, double sign);
 void		ft_rotate_matrix(t_global *global);
 int			ft_arraylen(char **mass);
+void		new_image(t_global *global);
+void		ft_swap(double *a, double *b);
 
+/* ------- Key Hook ------- */
+int			hook(int key, t_global *params);
+void		hook2(int key, t_global *params, bool *changed);
+void		hook3(int key, t_global *params, bool *changed);
+
+/* ------- Main ------- */
 void		ft_new_dot(t_global *global, t_coords *lst, t_dot *dot);
 t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i);
 t_win		*init_win(t_global *global);

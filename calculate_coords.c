@@ -37,9 +37,9 @@ void	check_params(t_global *global)
 	global->a = fabs(global->a * 57.2958) > 360 ? 0 : global->a;
 	global->b = fabs(global->b * 57.2958) > 360 ? 0 : global->b;
 	global->c = fabs(global->c * 57.2958) > 360 ? 0 : global->c;
-	global->scale -= global->scale > w / global->cols * 50 ? 0.3 : 0;
-	global->scale -= global->scale > w / global->rows * 50 ? 0.3 : 0;
-	global->scale += global->scale < 1 ? 0.3 : 0;
+	global->scale -= global->scale > w / global->cols * 50 ? 0.6 : 0;
+	global->scale -= global->scale > w / global->rows * 50 ? 0.6 : 0;
+	global->scale += global->scale < 1 ? 0.6 : 0;
 }
 
 int		calculate_coords(t_global *global)
@@ -52,7 +52,6 @@ int		calculate_coords(t_global *global)
 	lst = global->coord;
 	check_params(global);
 	ft_rotate_matrix(global);
-
 	while (++j < global->rows)
 	{
 		i = -1;

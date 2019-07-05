@@ -12,15 +12,6 @@
 
 #include "inc/fdf.h"
 
-void    ft_swap(double *a, double *b)
-{
-    double tmp;
-
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
 void	drawLine(double x0, double y0, double x1, double y1, t_global *global)
 {
 	bool steep;
@@ -136,7 +127,7 @@ bool	check_coord2(t_global *global, int i, int j)
 	return (true);
 }
 
-int		draw2(t_global *global)
+int		draw(t_global *global)
 {
 	int		i;
 	int		j;
@@ -164,12 +155,6 @@ int		draw2(t_global *global)
 	mlx_hook(global->win->win, 2, 1L << 17, hook, global);
 	mlx_put_image_to_window(global->win->mlx, global->win->win, global->win->img,
 																		0, 0);
-	return (0);
-}
-
-int		draw(t_global *global)
-{
-	mlx_loop_hook(global->win->mlx, &draw2, global);
 	mlx_loop(global->win->mlx);
 	return (0);
 }

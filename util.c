@@ -70,34 +70,6 @@ void	new_image(t_global *global)
 	calculate_coords(global);
 }
 
-void	hook2(int key, t_global *params, bool *changed)
-{
-	if (key == 18 && (*changed = true))
-	{
-		params->a = 30 * 0.0174533;
-		params->b = 30 * 0.0174533;
-		params->c = 30 * 0.0174533;
-	}
-	else if (key == 19 && (*changed = true))
-	{
-		params->a = 0 * 0.0174533;
-		params->b = 0 * 0.0174533;
-		params->c = 0 * 0.0174533;
-	}
-	else if (key == 20 && (*changed = true))
-	{
-		params->a = 90 * 0.0174533;
-		params->b = 90 * 0.0174533;
-		params->c = 90 * 0.0174533;
-	}
-	else if (key == 21 && (*changed = true))
-	{
-		params->a = 180 * 0.0174533;
-		params->b = 180 * 0.0174533;
-		params->c = 180 * 0.0174533;
-	}
-}
-
 void	altitude_changing(t_coords *coord, double sign)
 {
 	t_coords *lst;
@@ -108,37 +80,4 @@ void	altitude_changing(t_coords *coord, double sign)
 		lst->z *= sign;
 		lst = lst->next;
 	}
-}
-
-int		hook(int key, t_global *params)
-{
-	bool	changed;
-
-	changed = false;
-	(key == 53) ? exit(1) : NULL;
-	if (key == 124 && (changed = true))
-		params->b += 2 * 0.0174533;
-	else if (key == 123 && (changed = true))
-		params->b -= 2 * 0.0174533;
-	else if (key == 126 && (changed = true))
-		params->a += 2 * 0.0174533;
-	else if (key == 125 && (changed = true))
-		params->a -= 2 * 0.0174533;
-	else if (key == 115 && (changed = true))
-		params->c -= 2 * 0.0174533;
-	else if (key == 119 && (changed = true))
-		params->c += 2 * 0.0174533;
-	else if (key == 69 && (changed = true))
-		params->scale += 0.6;
-	else if (key == 78 && (changed = true))
-		params->scale -= 0.6;
-	else if (key == 27 && (changed = true))
-		altitude_changing(params->coord, 0.97);
-	else if (key == 24 && (changed = true))
-		altitude_changing(params->coord, 1.03);
-	else
-		hook2(key, params, &changed);
-	
-	(changed == true) ? new_image(params) : NULL;
-	return (0);
 }
