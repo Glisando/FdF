@@ -95,7 +95,7 @@ int			main(int argc, char **argv)
 	if (argc != 2)
 		return (write(1, "Error: Wrong number of arguments\n", 33));
 	if ((fd = open(argv[1], O_RDONLY)) == -1 || (read(fd, NULL, 0)) == -1)
-		return (write(1, "Error: Invalid file\n", 19));
+		return (write(1, "Error: Invalid file\n", 20));
 	ft_read_file(fd, 0, 0, (t_coords*)malloc(sizeof(t_coords)));
 	return (0);
 }

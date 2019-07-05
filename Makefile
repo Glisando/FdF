@@ -20,7 +20,7 @@ NAME =		fdf
 SRC_DIR =	./src/
 OBJ_DIR =	./obj/
 INC_DIR =	./inc/
-LIB_DIR =	./lib/
+LIB_DIR =	./libft/
 
 	# project source files
 
@@ -33,9 +33,9 @@ OBJ =		$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 	# libraries
 
 LIBFT =		$(LIBFT_DIR)libftprintf.a
-LIBFT_DIR =	$(LIB_DIR)libftprintf/
+LIBFT_DIR =	$(LIB_DIR)
 LIBFT_INC = $(LIBFT_DIR)
-LIBFT_FLAGS = -lft -L $(LIBFT_DIR) -lmlx -framework OpenGL -framework AppKit
+LIBFT_FLAGS = -lft -L $(LIBFT_DIR)
 
 	# compilation flags
 
@@ -58,7 +58,7 @@ CC =			gcc
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-		$(CC) $(OBJ) ./lib/libftprintf/libftprintf.a -o $(NAME)
+		$(CC) $(OBJ) ./libft/libft.a -o $(NAME) -lmlx -framework OpenGL -framework AppKit
 
 $(OBJ): | $(OBJ_DIR)
 
