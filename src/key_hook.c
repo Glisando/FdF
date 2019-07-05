@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/fdf.h"
+#include "fdf.h"
 
 int		hook(int key, t_global *params)
 {

@@ -12,49 +12,34 @@
 
 #include "printf.h"
 
-int		ft_iswhitespace(char const c)
+static int	ft_inbase(char c, int base)
 {
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v'
-		|| c == '\r' || c == '\f')
-		return (1);
-	return (0);
+	if (base <= 10)
+		return (c >= '0' && c <= '9');
+	return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)));
 }
 
-int	base(int c, int base)
+int			ft_atoi_base(char *str, int base)
 {
-	char *str = "0123456789abcdef";
-	char *str2 = "0123456789ABCDEF";
-	int  i = 0;
+	int	value;
+	int	sign;
 
-	while (i < base)
+	value = 0;
+	if (base <= 1 || base > 36)
+		return (0);
+	while (*str == ' ' || *str == '\t' || *str == '\n' ||
+			*str == '\f' || *str == '\r' || *str == '\v')
+		str++;
+	sign = (*str == '-') ? -1 : 1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (ft_inbase(*str, base))
 	{
-		if (c == str[i] || c == str2[i])
-			return (i);
-		i++;
+		if (*str - 'A' >= 0)
+			value = value * base + (*str - 'A' + 10);
+		else
+			value = value * base + (*str - '0');
+		str++;
 	}
-	return (-1);
-}
-
-int ft_atoi_base(char *str, int str_base)
-{
-	int nb = 0;
-	int negatif = 0;
-	int	i = 0;
-	while (ft_iswhitespace(str[i]))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			negatif = 1;
-		i++;
-	}
-	while (base(str[i], str_base) != -1)
-	{
-		nb = nb * str_base;
-		nb = nb + base(str[i], str_base);
-		i++;
-	}
-	if (negatif)
-		return (-nb);
-	return (nb);
+	return (value * sign);
 }

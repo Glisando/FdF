@@ -22,29 +22,49 @@
 # include "../libft/printf.h"
 # include <stdbool.h>
 
-typedef struct	s_win
+typedef struct		s_dl
 {
-	void		*mlx;
-	void		*win;
-	unsigned int		*img;
-}				t_win;
+	bool			steep;
+	int				xpxl1;
+	int				ypxl1;
+	int				xpxl2;
+	int				ypxl2;
+	double			x0;
+	double			y0;
+	double			x1;
+	double			y1;
+	double			dx;
+	double			dy;
+	double			gradient;
+	double			xend;
+	double			yend;
+	double			xgap;
+	double			intery;
+}					t_dl;
 
-typedef struct	s_coords
+typedef struct		s_win
 {
-    double			x;
-    double			y;
-    double			z;
-    unsigned int	color;
-    struct s_coords	*next;
-}               	t_coords;
+	void			*mlx;
+	void			*win;
+	unsigned int	*img;
+}					t_win;
 
-typedef struct  	s_dot
+typedef struct		s_coords
 {
-    double			x;
-    double			y;
+	double			x;
+	double			y;
 	double			z;
-    unsigned int	color;
-}               	t_dot;
+	unsigned int	color;
+	struct s_coords	*next;
+}					t_coords;
+
+typedef struct		s_dot
+{
+	double			x;
+	double			y;
+	double			z;
+	unsigned int	color;
+}					t_dot;
 
 typedef struct		s_global
 {
@@ -59,6 +79,10 @@ typedef struct		s_global
 	int				size_line;
 	int				xcur;
 	int				ycur;
+	double			x0;
+	double			y0;
+	double			x1;
+	double			y1;
 	double			a;
 	double			b;
 	double			c;
@@ -69,33 +93,36 @@ typedef struct		s_global
 	t_win			*win;
 }					t_global;
 
-/* ------- Draw's utils ------- */
-double		rfpart(double x);
-double		fpart(double x);
-double		round(double x);
-int			ipart(double x);
-void    	plot(double x, double y, double c, t_global * global);
+double				rfpart(double x);
+double				fpart(double x);
+double				round(double x);
+int					ipart(double x);
+void				plot(double x, double y, double c, t_global *global);
 
-/* ------- Utils ------- */
-void		ft_free_2array(char **mass);
-void		altitude_changing(t_coords *coord, double sign);
-void		ft_rotate_matrix(t_global *global);
-int			ft_arraylen(char **mass);
-void		new_image(t_global *global);
-void		ft_swap(double *a, double *b);
+void				ft_free_2array(char **mass);
+void				altitude_changing(t_coords *coord, double sign);
+void				ft_rotate_matrix(t_global *global);
+int					ft_arraylen(char **mass);
+void				new_image(t_global *global);
+void				ft_swap(double *a, double *b);
+bool				check_coord1(t_global *global, int i, int j);
+bool				check_coord2(t_global *global, int i, int j);
+void				zero_dl(t_global *global);
+void				set_dot0(t_dot **dot, int i, int j, t_global *global);
+void				set_dot1(t_dot **dot, int i, int j, t_global *global);
 
-/* ------- Key Hook ------- */
-int			hook(int key, t_global *params);
-void		hook2(int key, t_global *params, bool *changed);
-void		hook3(int key, t_global *params, bool *changed);
+int					hook(int key, t_global *params);
+void				hook2(int key, t_global *params, bool *changed);
+void				hook3(int key, t_global *params, bool *changed);
 
-/* ------- Main ------- */
-void		ft_new_dot(t_global *global, t_coords *lst, t_dot *dot);
-t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i);
-t_win		*init_win(t_global *global);
+void				ft_new_dot(t_global *global, t_coords *lst, t_dot *dot);
+t_global			*init_global_struct(t_coords *coord, int rows,
+											int cols, int i);
+t_win				*init_win(t_global *global);
 
-int			draw(t_global *global);
-int			calculate_coords(t_global *global);
-void    	ft_swap(double *a, double *b);
+int					draw(t_global *global, t_dot **dot, int j, int i);
+void				drawline(t_global *global);
+int					calculate_coords(t_global *global);
+void				ft_swap(double *a, double *b);
 
 #endif

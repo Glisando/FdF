@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/fdf.h"
+#include "fdf.h"
 
 t_win		*init_win(t_global *global)
 {
@@ -45,16 +45,6 @@ t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 	global->win = init_win(global);
 	global->img_data = mlx_get_data_addr(global->win->img, &global->bpp,
 										&global->size_line, &global->endian);
-
-	// i = 0;
-	// int *p;
-	// p = (int*)(global->img_data);
-	// printf("%i\n", global->size_line);
-	// while (i <  global->size_line * 1000 / 4)
-	// {
-	// 	p[i] = 0xFFFFFF;
-	// 	i++;
-	// }
 	return (global);
 }
 
@@ -87,11 +77,8 @@ int			ft_read_file(int fd, int x,
 		if (cols == 0 || (cols != prev_cols && prev_cols != 0))
 			return (write(1, "Error: Invalid string :(\n", 25));
 		x = -1;
-		while (++x < cols)
-		{
-			tmp = ft_new_list(tmp, x, y, mass);
+		while (++x < cols && (tmp = ft_new_list(tmp, x, y, mass)))
 			tmp = tmp->next;
-		}
 		ft_free_2array(mass);
 		ft_strdel(&line);
 		prev_cols = cols;
