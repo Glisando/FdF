@@ -45,6 +45,7 @@ t_global	*init_global_struct(t_coords *coord, int rows, int cols, int i)
 	global->win = init_win(global);
 	global->img_data = mlx_get_data_addr(global->win->img, &global->bpp,
 										&global->size_line, &global->endian);
+	global->end_c = 0x42f55d;
 	return (global);
 }
 

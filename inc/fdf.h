@@ -54,7 +54,7 @@ typedef struct		s_coords
 	double			x;
 	double			y;
 	double			z;
-	unsigned int	color;
+	int	color;
 	struct s_coords	*next;
 }					t_coords;
 
@@ -63,13 +63,15 @@ typedef struct		s_dot
 	double			x;
 	double			y;
 	double			z;
-	unsigned int	color;
+	int	color;
+	int	def_c;
 }					t_dot;
 
 typedef struct		s_global
 {
 	int				width;
 	int				height;
+	int				end_c;
 	char			*img_data;
 	int				rows;
 	int				cols;
@@ -88,10 +90,16 @@ typedef struct		s_global
 	double			c;
 	double			t[3][3];
 	double			scale;
+	double			per;
 	t_coords		*coord;
 	t_dot			**dot;
 	t_win			*win;
 }					t_global;
+
+void				percentage(t_global *global, t_dl dr, int xcurrent, int ycurrent);
+double				percent(int start, int end, int current);
+int					get_light(int start, int end, double percentage);
+int					get_color(int start, int end,  int current, t_global *global);
 
 double				rfpart(double x);
 double				fpart(double x);

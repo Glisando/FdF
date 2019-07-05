@@ -24,7 +24,7 @@ LIB_DIR =	./libft/
 
 	# project source files
 
-SRC = main.c draw_util.c key_hook.c util.c util2.c draw.c calculate_coords.c
+SRC = main.c draw_util.c key_hook.c util.c util2.c draw.c calculate_coords.c wu_algo.c
 
 	# project object files
 
@@ -39,8 +39,8 @@ LIBFT_FLAGS = -lft -L $(LIBFT_DIR)
 
 	# compilation flags
 
-CC_FLAGS	=	-Wall -Wextra -Werror
-
+CC_FLAGS	=	-Wall -Wextra -Werror 
+MLX_FLAGS	=	-lmlx -framework OpenGL -framework AppKit
 	# linking flags
 
 LINK_FLAGS =   $(LIBFT_FLAGS)
@@ -58,7 +58,7 @@ CC =			gcc
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-		$(CC) $(OBJ) ./libft/libft.a -o $(NAME) -lmlx -framework OpenGL -framework AppKit
+		$(CC) $(OBJ) ./libft/libft.a -o $(NAME) $(MLX_FLAGS)
 
 $(OBJ): | $(OBJ_DIR)
 

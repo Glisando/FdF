@@ -15,16 +15,22 @@
 void	plot(double x, double y, double c, t_global *global)
 {
 	int i;
+	int	start_c;
+	int	cur_c;
 
+	start_c = 0;
+	cur_c = 0;
 	if ((x < global->width && x > 0) && (y < global->height && y > 0))
 	{
 		i = (x * global->bpp / 8) + (y * global->size_line);
-		global->img_data[i] =
-			(global->dot[global->ycur][global->xcur].color & 255) * c;
-		global->img_data[++i] =
-			((global->dot[global->ycur][global->xcur].color >> 8) & 255) * c;
-		global->img_data[++i] =
-			((global->dot[global->ycur][global->xcur].color >> 16) & 255) * c;
+		start_c = global->dot[global->ycur][global->xcur].def_c;
+		cur_c = global->dot[global->ycur][global->xcur].color;
+		// if (global->dot[global->ycur][global->xcur].z > 0)
+			start_c = get_color(start_c, cur_c, global->end_c , global);
+
+		global->img_data[i] = (start_c & 255) * c;
+		global->img_data[++i] = ((start_c >> 8) & 255) * c;
+		global->img_data[++i] = ((start_c >> 16) & 255) * c;
 		global->img_data[++i] = 0;
 	}
 }
