@@ -12,18 +12,14 @@
 
 #include "fdf.h"
 
-int		get_color(int start, int current, int end, t_global *global)
+int		get_color(int start, int end, t_global *global)
 {
-	int     red;
-	int     green;
-	int     blue;
+	int		red;
+	int		green;
+	int		blue;
 
-	if (current == end)
-		return (current);
-	// if (dr.dx > dr.dy)
-	// 	global->per = percent(dr.x0, dr.x1, global->xcur);
-	// else
-	// 	global->per = percent(dr.y0, dr.y1, global->ycur);
+	if (start == end)
+		return (start);
 	red = get_light((start >> 16) & 0xFF, (end >> 16) & 0xFF, global->per);
 	green = get_light((start >> 8) & 0xFF, (end >> 8) & 0xFF, global->per);
 	blue = get_light(start & 0xFF, end & 0xFF, global->per);
@@ -45,12 +41,12 @@ double	percent(int start, int end, int current)
 	return ((distance == 0) ? 1.0 : (placement / distance));
 }
 
-void	percentage(t_global *global, t_dl dr, int xcurrent, int ycurrent)
+void	percentage(t_global *global, int xcurrent, int ycurrent)
 {
-	if (dr.dx > dr.dy)
-		global->per = percent(dr.x0, dr.x1, xcurrent);
+	if (global->dr.steep)
+		global->per = percent(global->dr.x0, global->dr.x1, xcurrent);
 	else
-		global->per = percent(dr.y0, dr.y1, ycurrent);
+		global->per = percent(global->dr.y0, global->dr.y1, ycurrent);
 }
 
 int		draw(t_global *global, t_dot **dot, int j, int i)
@@ -60,8 +56,6 @@ int		draw(t_global *global, t_dot **dot, int j, int i)
 		i = -1;
 		while (++i < global->cols)
 		{
-			global->xcur = i;
-			global->ycur = j;
 			set_dot0(dot, i, j, global);
 			if (j != global->rows - 1 && check_coord1(global, i, j))
 			{

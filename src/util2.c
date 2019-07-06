@@ -57,10 +57,14 @@ void	set_dot0(t_dot **dot, int i, int j, t_global *global)
 {
 	global->x0 = dot[j][i].x;
 	global->y0 = dot[j][i].y;
+	global->xcur = i;
+	global->ycur = j;
 }
 
 void	set_dot1(t_dot **dot, int i, int j, t_global *global)
 {
 	global->x1 = dot[j][i].x;
 	global->y1 = dot[j][i].y;
+	global->xend = i;
+	global->yend = j;
 }

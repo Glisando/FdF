@@ -23,10 +23,8 @@ void	math_for_translating(t_global *global, t_coords *lst, int i, int j)
 		* y - global->t[2][0] * lst->z) * global->scale;
 	global->dot[j][i].y = (global->t[0][1] * x + global->t[1][1]
 		* y - global->t[2][1] * lst->z) * global->scale;
-	global->dot[j][i].z = (global->t[0][2] * x + global->t[1][2]
-		* y + global->t[2][2] * lst->z) * global->scale;
+	global->dot[j][i].z = lst->z;
 	global->dot[j][i].color = lst->color;
-	global->dot[j][i].def_c = lst->color;
 	global->dot[j][i].x += global->width / 2;
 	global->dot[j][i].y += global->height / 2;
 }
