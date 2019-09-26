@@ -12,100 +12,41 @@
 
 #include "fdf.h"
 
-void	drawline4(t_global *global, t_dl dr)
+int		get_color(int start, int end, t_global *global)
 {
-	int x;
+	int		red;
+	int		green;
+	int		blue;
 
-	if (dr.steep)
-	{
-		x = dr.xpxl1 + 1;
-		while (x < dr.xpxl2 - 1)
-		{
-			plot(ipart(dr.intery), x, rfpart(dr.intery), global);
-			plot(ipart(dr.intery) + 1, x, fpart(dr.intery), global);
-			dr.intery = dr.intery + dr.gradient;
-			x++;
-		}
-	}
-	else
-	{
-		x = dr.xpxl1 + 1;
-		while (x < dr.xpxl2 - 1)
-		{
-			plot(x, ipart(dr.intery), rfpart(dr.intery), global);
-			plot(x, ipart(dr.intery) + 1, fpart(dr.intery), global);
-			dr.intery = dr.intery + dr.gradient;
-			x++;
-		}
-	}
+	if (start == end)
+		return (start);
+	red = get_light((start >> 16) & 0xFF, (end >> 16) & 0xFF, global->per);
+	green = get_light((start >> 8) & 0xFF, (end >> 8) & 0xFF, global->per);
+	blue = get_light(start & 0xFF, end & 0xFF, global->per);
+	return ((red << 16) | (green << 8) | blue);
 }
 
-void	drawline3(t_global *global, t_dl dr)
+int		get_light(int start, int end, double percentage)
 {
-	dr.intery = dr.yend + dr.gradient;
-	dr.xend = round(dr.x1);
-	dr.yend = dr.y1 + dr.gradient * (dr.xend - dr.x1);
-	dr.xgap = fpart(dr.x1 + 0.5);
-	dr.xpxl2 = dr.xend;
-	dr.ypxl2 = ipart(dr.yend);
-	if (dr.steep)
-	{
-		plot(dr.ypxl2, dr.xpxl2, rfpart(dr.yend) * dr.xgap, global);
-		plot(dr.ypxl2 + 1, dr.xpxl2, fpart(dr.yend) * dr.xgap, global);
-	}
-	else
-	{
-		plot(dr.xpxl2, dr.ypxl2, rfpart(dr.yend) * dr.xgap, global);
-		plot(dr.xpxl2, dr.ypxl2 + 1, fpart(dr.yend) * dr.xgap, global);
-	}
-	drawline4(global, dr);
+	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-void	drawline2(t_global *global, t_dl dr)
+double	percent(int start, int end, int current)
 {
-	dr.xend = round(dr.x0);
-	dr.yend = dr.y0 + dr.gradient * (dr.xend - dr.x0);
-	dr.xgap = rfpart(dr.x0 + 0.5);
-	dr.xpxl1 = dr.xend;
-	dr.ypxl1 = ipart(dr.yend);
-	if (dr.steep)
-	{
-		plot(dr.ypxl1, dr.xpxl1, rfpart(dr.yend) * dr.xgap, global);
-		plot(dr.ypxl1 + 1, dr.xpxl1, fpart(dr.yend) * dr.xgap, global);
-	}
-	else
-	{
-		plot(dr.xpxl1, dr.ypxl1, rfpart(dr.yend) * dr.xgap, global);
-		plot(dr.xpxl1, dr.ypxl1 + 1, fpart(dr.yend) * dr.xgap, global);
-	}
-	drawline3(global, dr);
+	double placement;
+	double distance;
+
+	placement = current - start;
+	distance = end - start;
+	return ((distance == 0) ? 1.0 : (placement / distance));
 }
 
-void	drawline(t_global *global)
+void	percentage(t_global *global, int xcurrent, int ycurrent)
 {
-	t_dl dr;
-
-	dr.x0 = global->x0;
-	dr.y0 = global->y0;
-	dr.x1 = global->x1;
-	dr.y1 = global->y1;
-	dr.steep = fabs(dr.y1 - dr.y0) > fabs(dr.x1 - dr.x0);
-	if (dr.steep)
-	{
-		ft_swap(&dr.x0, &dr.y0);
-		ft_swap(&dr.x1, &dr.y1);
-	}
-	if (dr.x0 > dr.x1)
-	{
-		ft_swap(&dr.x0, &dr.x1);
-		ft_swap(&dr.y0, &dr.y1);
-	}
-	dr.dx = dr.x1 - dr.x0;
-	dr.dy = dr.y1 - dr.y0;
-	dr.gradient = dr.dy / dr.dx;
-	if (dr.dx == 0.0)
-		dr.gradient = 1.0;
-	drawline2(global, dr);
+	if (global->dr.steep)
+		global->per = percent(global->dr.x0, global->dr.x1, xcurrent);
+	else
+		global->per = percent(global->dr.y0, global->dr.y1, ycurrent);
 }
 
 int		draw(t_global *global, t_dot **dot, int j, int i)
@@ -115,8 +56,6 @@ int		draw(t_global *global, t_dot **dot, int j, int i)
 		i = -1;
 		while (++i < global->cols)
 		{
-			global->xcur = i;
-			global->ycur = j;
 			set_dot0(dot, i, j, global);
 			if (j != global->rows - 1 && check_coord1(global, i, j))
 			{

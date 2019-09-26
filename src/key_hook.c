@@ -75,4 +75,12 @@ void	hook3(int key, t_global *params, bool *changed)
 		altitude_changing(params->coord, 0.97);
 	else if (key == 24 && (*changed = true))
 		altitude_changing(params->coord, 1.03);
+	else if (key == 83 && (*changed = true))
+		set_magma_color(params->coord);
+	else if (key == 84 && (*changed = true))
+		set_ukr_color(params->coord);
+	else if (key == 85 && (*changed = true))
+		set_purple_color(params->coord);
+	else if (key == 86 && (*changed = true))
+		set_orange_color(params->coord);
 }

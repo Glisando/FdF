@@ -55,7 +55,9 @@ t_coords	*ft_new_list(t_coords *tmp, int x, int y, char **mass)
 	tmp->y = y;
 	tmp->z = ft_atoi(mass[x]);
 	tmp->color = ft_strchr(mass[x], 'x') == 0 ?
-		0x9f5ad1 : ft_atoi_base(ft_strchr(mass[x], 'x'), 16);
+		0 : ft_atoi_base(ft_strchr(mass[x], 'x'), 16);
+	if (tmp->color == 0)
+		tmp->color = tmp->z != 0 ? MAGMA_E : MAGMA_S;
 	return (tmp);
 }
 
@@ -96,6 +98,7 @@ int			main(int argc, char **argv)
 		return (write(1, "Error: Wrong number of arguments\n", 33));
 	if ((fd = open(argv[1], O_RDONLY)) == -1 || (read(fd, NULL, 0)) == -1)
 		return (write(1, "Error: Invalid file\n", 20));
+	print_hot_keys();
 	ft_read_file(fd, 0, 0, (t_coords*)malloc(sizeof(t_coords)));
 	return (0);
 }
